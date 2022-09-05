@@ -1,0 +1,38 @@
+﻿@inject HttpClient Http
+<ul class="list-unstyled">
+    @foreach (var product in Products)
+    {
+        <li class="media my-3">
+           
+            <span>Type<img class="media-img" src="@product.Type" width="80" height="80"/></span>
+            <span class="media-image-wrapper mr-2">
+                <a href="/product/@product.Id">
+                    <img class="media-img" src="@product.Image" width="200" height="300" alt="@product.Title"/>
+                    </a>
+            </span>
+            <div class="media-body">
+                <a href="/product/@product.Id">
+                <h4 class="mb-0">@product.Title</h4>    
+                </a>
+                <p>@product.Description</p>
+                <h5 class="price">
+                   $@product.Price 
+                </h5>
+            </div>
+            <br>
+        </li>
+    }
+</ul>
+@code {
+    private static List<Product> Products = new List<Product>();
+
+    protected override async void OnInitialized()
+    { 
+        var result = await Http.GetFromJsonAsync<List<Product>>("api/Product");
+        if(result != null)
+        {
+            Products = result;
+        }
+    }
+    
+}
