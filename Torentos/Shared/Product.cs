@@ -15,10 +15,13 @@ namespace Torentos.Shared
         public string? Image { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+
         public bool IsPublic { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public DateTime DateUpdated { get; set; }
         public string? Type { get; set; }
+        public Category? Category { get; set; }
+        public int CategoryId { get; set; } 
     }
 }

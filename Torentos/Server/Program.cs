@@ -1,6 +1,7 @@
 global using Torentos.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using Torentos.Server.Data;
+global using Torentos.Server.Services.ProductService;
 using Microsoft.AspNetCore.ResponseCompression;
 
 
@@ -17,6 +18,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
