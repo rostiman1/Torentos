@@ -33,28 +33,30 @@
         line-height: 3rem;
     }
 
-.nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.25);
-    color: white;
-}
+        .nav-item ::deep a.active {
+            background-color: rgba(255,255,255,0.25);
+            color: white;
+        }
 
-.nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
-}
-.flex-nav{
-    flex-direction:column;
+        .nav-item ::deep a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+.flex-nav {
+    flex-direction: column;
 }
 
 @media (min-width: 641px) {
-
-    .navbar-toggler, navbar-toggler-wrapper{
+    .navbar-toggler, .navbar-toggler-wrapper {
         display: none;
     }
-    .flex-nav{
-        flex-direction:row;
-        display:flex;
+
+    .flex-nav {
+        flex-direction: row;
+        display: flex;
     }
+
     .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;

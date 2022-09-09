@@ -44,7 +44,7 @@
             var response = await _http.GetFromJsonAsync<ServiceResponse<List<Category>>>("api/category");
             if (response != null && response.Data != null)
             {
-                Categories = response.Data;
+                AdminCategories = response.Data;
             }
         }
 
@@ -53,7 +53,7 @@
             var response = await _http.GetFromJsonAsync<ServiceResponse<List<Category>>>("api/category");
             if(response != null && response.Data != null)
             {
-                AdminCategories = response.Data;
+               Categories = response.Data;
             }
         }
 
