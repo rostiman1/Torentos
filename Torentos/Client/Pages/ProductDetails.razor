@@ -1,6 +1,7 @@
 ﻿@page "/product/{id:int}"
 @inject IProductService ProductService
-
+@inject ICartService CartService
+ 
 @if(product == null)
 {
     @message
@@ -14,23 +15,39 @@ else
         <div class="media-body">
             <h2 class="mb-0">@product.Title</h2>
             <p>@product.Description</p>
+            @if(product.Variants != null && product.Variants.Count > 1)
+            {
+                <div>
+                    <select class="form-control" @bind ="currentTypeId">
+                        @foreach (var variant in product.Variants)
+                        {
+                            <option value="@variant.ProductTypeId">@variant.ProductType.Name</option>
+                        }
+                    </select>
+                </div>
+
+            }
             <h4 class="price">
-                $@product.Price
-            </h4>
+                    <button class="btn btn-success"><i class="fa fa-download"></i> Download</button>
+             </h4>
+             <button class="btn btn-primary" @onclick="AddToCart">
+                 <i class ="oi oi-cart"></i>&nbsp;&nbsp;&nbsp;Add To Favourite
+             </button>
         </div>
     </div>
 }
 
 @code {
-    private Product product = null;
+    private Product? product = null;
     private string message = string.Empty;
+    private int currentTypeId = 1;
 
     [Parameter]
     public int Id { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        message = "Loading product...";
+        message = "Loading products..";
         var result = await ProductService.GetProduct(Id);
         if (!result.Success)
         {
@@ -39,7 +56,25 @@ else
         else
         {
             product = result.Data;
+            if(product.Variants.Count > 0)
+            {
+                currentTypeId = product.Variants[0].ProductTypeId;
+            }
         }
-
+    }
+    private ProductVariant GetSelectedVariant()
+    {
+        var variant = product.Variants.FirstOrDefault(x => x.ProductTypeId == currentTypeId);
+        return variant;
+    }
+    private async Task AddToCart()
+    {
+        var productVariant = GetSelectedVariant();
+        var cartItem = new CartItem
+        {
+            ProductId = productVariant.ProductId,
+            ProductTypeId = productVariant.ProductTypeId
+        };
+        await CartService.AddToCart(cartItem);
     }
 }

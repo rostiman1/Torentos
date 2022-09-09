@@ -2,6 +2,8 @@ global using Torentos.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using Torentos.Server.Data;
 global using Torentos.Server.Services.ProductService;
+global using Torentos.Server.Services.CategoryService;
+global using Torentos.Server.Services.CartService;
 using Microsoft.AspNetCore.ResponseCompression;
 
 
@@ -20,6 +22,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 var app = builder.Build();
 

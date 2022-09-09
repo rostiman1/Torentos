@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -13,15 +13,15 @@ namespace Torentos.Shared
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? Image { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal Price { get; set; }
-
         public bool IsPublic { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public DateTime DateUpdated { get; set; }
         public string? Type { get; set; }
         public Category? Category { get; set; }
-        public int CategoryId { get; set; } 
+        public int CategoryId { get; set; }
+        public List<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
+        public bool Featured { get; set; } = false;
+
     }
 }

@@ -1,7 +1,8 @@
 ﻿@inject IProductService ProductService
+@implements IDisposable
 @if(ProductService.Products == null || ProductService.Products.Count == 0)
 {
-    <span>Loading Products...</span>
+    <span>@ProductService.Message</span>
 }
 else
 {
@@ -10,7 +11,7 @@ else
     {
         <li class="media my-3">
             <span>
-                  <div>@if(product.Type == "images/VideoGame.png")
+                 <div>@if(product.Type == "images/VideoGame.png")
                 {
                    <div>Games</div>
                 }
@@ -35,21 +36,36 @@ else
                 </a>
                 <p>@product.Description</p>
                 <h5 class="price">
-                   $@product.Price 
+                    <button class="btn btn-success"><i class="fa fa-download"></i> Download</button>
                 </h5>
+                 <p>@GetSizeOfTOrrent(product)</p>
             </div>
             <br>
         </li>
     }
 </ul>
+    for (var i = 1; i < ProductService.PageCount; i++)
+    {
+        <a class="btn
+            @(i== ProductService.CurrentPage? "btn-info" : "btn-outline-info")
+            page-selection"
+            href="/search/@ProductService.LastSearchText/@i">@i</a>
+    }
 }
-
-
 @code {
 
-    protected override async void OnInitialized()
+    protected override void OnInitialized()
     {
-        await ProductService.GetProducts();
+        ProductService.ProductsChanged += StateHasChanged;
     }
-    
+    public void Dispose()
+    {
+        ProductService.ProductsChanged -= StateHasChanged;
+    }
+    private string GetSizeOfTOrrent(Product product)
+    {
+        var variant = product.Variants;
+        decimal exactSize = variant.Min(x => x.Price);
+        return $"Total size of the torrent {exactSize} GB";
+    }
 }
